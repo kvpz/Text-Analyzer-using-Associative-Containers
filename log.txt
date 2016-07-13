@@ -1,0 +1,53 @@
+Kevin Perez
+COP4530
+Project 5
+
+~~~ 7/12/15 ~~~
+-Note difference in foaa.cpp and foaa+.cpp (respectively):
+   <         aa[key] = data;
+   <         // aa[key] += data;
+   ---
+   >         // aa[key] = data;
+   >            aa[key] += data;
+
+-Studying the concept of RBLLT with area51 file frbllt_*.x
+
+~~~ 8/1/15 ~~~
+-Major difference in wordify.cpp. All strings are cleaned as requested.
+-tiny.txt.com is the same as com.6 in proj4.
+-Making changes to wordbench2.cpp after making drastic improvements to the one
+in proj4.
+-BIG PROBLEM: calling RGet from Get and sending root_ as the first parameter
+does pass the Node pointer root_ into RGet. I am able to print root_ data in
+Get() before calling RGet(), but I cannot print the data in RGet after passing
+it.  
+
+~~~ 8/2/15 ~~~
+- RGet works perfectly when ReadText is executed. Results were compared with
+proj4 implementation of wordbench using english.txt.
+
+~~~ 8/5/15 ~~~
+Testing RInsert calling rehash in foaa.x. Note that the calls to RInsert from
+CopyNode class will mostly have a non null node in the first parameter when
+newroot_ in CopyNode is pointing to a node with children.
+
+=> The storing of elements works fine in wordbench so operator[] works and thus
+RGet works as well. Testing with foaa.cpp though... made a change to the second
+if statement in RGet():  !(nptr->lchild_ != 0 && nptr->lchild_->IsRed()). I
+negated the conditional statement and did not negate the second argument only.
+
+~~~ 2/28/16 ~~~
+=> All include preprocessor directories have been made local relative to the project
+(all within ./includes). Changes to the makefile followed to accommodate changes.
+
+=> Linking errors appeared, one being: main.o:(.xdata+0x8): undefined reference to `__gxx_personality_v0'
+This was resolved by appending '-lstdc++' at the end of each linking command found in
+wb2.x, main.o, wordbench2.o, and xstring.o. See makefile. The reason for this issue is
+still unknown; not an issue when compiling in Linux environment (only cygwin64). For more info see:
+http://stackoverflow.com/questions/6045809/problem-with-g-and-undefined-reference-to-gxx-personality-v0
+
+==> The above issue with the '__gxx_personality_v0' error occurred again. I found the problem to
+be with the include directives. I modified the include preprocessor directives for all project files.
+Quoatations("") surrounding the source file name is preferred if the file is within the same folder (roughly
+speaking).
+
