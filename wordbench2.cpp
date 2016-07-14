@@ -42,21 +42,29 @@ bool WordBench::ReadText(const fsu::String& infile)
 {
   std::ifstream fstr;
   fstr.open(infile.Cstr());
-  if(fstr.fail())
-  {
-    return false;
-  }
+  if(fstr.fail())   return false; // driver program prints error message
   else
   {
     fsu::String str;
     infiles_.PushBack(infile);
-    unsigned int wordsRead = 0;
+    unsigned int numwords = 0;
+		fsu::String current_word;
+		while (fstr >> current_word)
+		{
+			Wordify(current_word);
+			if (current_word.Length() != 0)
+			{
+				++frequency_[str];
+				++numwords;
+			} // end if
+		}
+		std::cout << "Words read: " << numwords << std::endl;
     return true;
-  }//outer-if
+  }// outer-if
 }
 
 bool WordBench::WriteReport(const fsu::String& outfile, unsigned short kw, unsigned short dw,
-                std::ios_base::fmtflags kf, std::ios_base::fmtflags df ) const
+																									std::ios_base::fmtflags kf, std::ios_base::fmtflags df ) const
 {
  if (infiles_.Empty())
  {
@@ -79,7 +87,9 @@ bool WordBench::WriteReport(const fsu::String& outfile, unsigned short kw, unsig
 
 void WordBench::ShowSummary() const
 {
-
+	std::cout << "	Files: ";
+	infiles_.Display(std::cout, ' ');
+	
 }
 
 void WordBench::ClearData()

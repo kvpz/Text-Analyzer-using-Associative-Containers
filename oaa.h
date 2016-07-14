@@ -226,17 +226,16 @@ namespace fsu
 
 
   // API
-
+  /*
+    Returns data (in Wordbench, size_t) associated with the key IN THE TREE.
+    In terms of location: Get declares "location" as a local variable, calls
+    RGet, and then returns "location->data_".
+  */
   template < typename K , typename D , class P >
   D& OAA<K,D,P>::Get (const KeyType& k)
   {
-    /*
-      Returns data (in Wordbench, size_t) associated with the key IN THE TREE.
-      In terms of location: Get declares "location" as a local variable, calls
-      RGet, and then returns "location->data_".
-     */
     Node* location;
-    root_ = RGet(root_, k, location);
+    root_ = RGet(root_, k, location); // RGet() returns a Node pointer
     root_->SetBlack();  // RGet() returns root_ as red if tree is empty
     return location->data_;  
   }
@@ -249,6 +248,7 @@ namespace fsu
     std::cout << "In OAA::Erase()" << std::endl;
   }
   */
+	
   template < typename K , typename D , class P >
   void OAA<K,D,P>::Clear()
   {
@@ -359,6 +359,7 @@ namespace fsu
       nptr->lchild_ = RGet(nptr->lchild_, kval, location);
     }
     else if (pred_(nptr->key_,kval))  // go down right branch
+		
     {
       nptr->rchild_ = RGet(nptr->rchild_, kval, location);
     }
