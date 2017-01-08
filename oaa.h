@@ -5,7 +5,8 @@
     
     OAA: Ordered Asociative Array
     OAA is being implemented using left-leaning red-black (balanced) binary trees as coined
-    by Robert Sedgewick of Stanford University.
+    by Robert Sedgewick of Stanford University. RB tree structure is best used when a lot of
+		insertion and deletions will be performed. For lots of searching, using AVL trees.
 
   Concept of LLRBT (1-4 are properies of RBTs as well)
   ----------------
@@ -227,7 +228,7 @@ namespace fsu
 
   // API
   /*
-    Returns data (in Wordbench, size_t) associated with the key IN THE TREE.
+    Returns data (in Wordbench it is size_t) associated with the key IN THE TREE.
     In terms of location: Get declares "location" as a local variable, calls
     RGet, and then returns "location->data_".
   */
@@ -240,14 +241,13 @@ namespace fsu
     return location->data_;  
   }
 
-  /*
   template < typename K , typename D , class P >
   void OAA<K,D,P>::Erase(const KeyType& k)
   {
-    
-    std::cout << "In OAA::Erase()" << std::endl;
-  }
-  */
+    std::cout << "In OAA::Erase(key = " << k << ")" << std::endl;
+		
+	}
+  
 	
   template < typename K , typename D , class P >
   void OAA<K,D,P>::Clear()
@@ -278,63 +278,8 @@ namespace fsu
   void  OAA<K,D,P>::Display (std::ostream& os, int kw, int dw, std::ios_base::fmtflags kf, std::ios_base::  fmtflags df) const
   // Displays tree as inorder traversal
   {
-    
     PrintNode print(os, kw, dw, kf, df);  // print(node) will only print alive nodes
-    Node * t = this->root_;    // temp is initialized to root
-    Node * A = NewNode(K(),D());          // A is always temp's parent
-    Node * B = NewNode(K(),D());
-    // find the smallest key
-    //int test = 50;
-    // initialize t to the left most node before algorithm
-    A = t;
-    while(t->lchild_ != 0)
-    {
-      std::cout << "going down" << std::endl;
-      A->lchild_->rchild_ = t;
-      t = t->lchild_;
-      A = A->lchild_;
-      print(A);
-      print(t);
-    }
-    /*
-    while(A->rchild_ != 0)
-    {
-      std::cout << "going up" << std::endl;
-      t = A;
-      print(t);
-      A = A->rchild_;
-    }
-    */
-    std::cout << "Inorder traversal" << std::endl;
-    print(t);
-    B = t;  // node already visited is B
-    int test = 50;
-    while (--test != 0)
-    {
-      while(t->lchild_ != 0 && t->lchild_ != B)
-      {
-        std::cout << "going left" << std::endl;
-        A->lchild_->rchild_ = t;
-        t = t->lchild_;
-        A = A->lchild_;
-      }
-
-      if(t->rchild_ == 0 && t->lchild_ == 0 && t == B)
-      {
-        t = A;             // go back to parent
-        A = A->rchild_;
-      }
-      else if(t->rchild_ != 0 && t->lchild_ == B)
-      {
-        //A->rchild_->lchild_ = t;
-        t = t->rchild_;
-      }
-      print(t);
-      B = t;
-      std::cout << "End of while" << std::endl;
-    } // while
-    
-    
+		Traverse(print);    
   } // Display
 
   template < typename K , typename D , class P >
