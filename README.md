@@ -1,5 +1,4 @@
 # Text-Analyzer-using-Associative-Containers
-## Project 5 of COP 4530: Implementing Ordered Associative Array
 
 ### Files
 - **oaa.h**           the ordered associative array class template
